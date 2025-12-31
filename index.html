@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Fake macOS</title>
+<style>
+:root {
+  --bg: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+  --window: rgba(30,30,30,0.85);
+  --bar: rgba(20,20,20,0.6);
+  --text: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* Top bar */
+#menubar {
+  height: 28px;
+  background: var(--bar);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 13px;
+}
+
+#menubar span {
+  margin-right: 15px;
+  cursor: default;
+}
+
+/* Desktop */
+#desktop {
+  position: relative;
+  height: calc(100vh - 28px);
+}
+
+/* Dock */
+#dock {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(15px);
+  border-radius: 18px;
+}
+
+.dock-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.dock-icon:hover {
+  transform: scale(1.25);
+}
+
+/* Window */
+.window {
+  position: absolute;
+  width: 360px;
+  height: 240px;
+  background: var(--window);
+  backdrop-filter: blur(18px);
+  border-radius: 12px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  overflow: hidden;
+}
+
+.titlebar {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  cursor: grab;
+}
+
+.buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.close { background: #ff5f56; }
+.min { background: #ffbd2e; }
+.max { background: #27c93f; }
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.content {
+  padding: 12px;
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<div id="menubar">
+  <span>🍎 Finder</span>
+  <span>File</span>
+  <span>Edit</span>
+  <span>View</span>
+</div>
+
+<div id="desktop">
+  <div id="dock">
+    <div class="dock-icon" onclick="openFinder()">📁</div>
+    <div class="dock-icon" onclick="openNotes()">📝</div>
+    <div class="dock-icon" onclick="openAbout()">🍎</div>
+  </div>
+</div>
+
+<script>
+const desktop = document.getElementById("desktop");
+let z = 1;
+
+function createWindow(title, html) {
+  const win = document.createElement("div");
+  win.className = "window";
+  win.style.left = Math.random() * 300 + 80 + "px";
+  win.style.top = Math.random() * 200 + 60 + "px";
+  win.style.zIndex = z++;
+
+  win.innerHTML = `
+    <div class="titlebar">
+      <div class="buttons">
+        <div class="btn close"></div>
+        <div class="btn min"></div>
+        <div class="btn max"></div>
+      </div>
+      <div class="title">${title}</div>
+    </div>
+    <div class="content">${html}</div>
+  `;
+
+  desktop.appendChild(win);
+
+  win.onclick = () => win.style.zIndex = z++;
+
+  win.querySelector(".close").onclick = () => win.remove();
+
+  // Drag
+  const bar = win.querySelector(".titlebar");
+  let dx, dy, drag = false;
+
+  bar.onmousedown = e => {
+    drag = true;
+    dx = e.clientX - win.offsetLeft;
+    dy = e.clientY - win.offsetTop;
+    win.style.zIndex = z++;
+  };
+
+  document.onmousemove = e => {
+    if (!drag) return;
+    win.style.left = e.clientX - dx + "px";
+    win.style.top = e.clientY - dy + "px";
+  };
+
+  document.onmouseup = () => drag = false;
+}
+
+/* Apps */
+function openFinder() {
+  createWindow("Finder", "📂 Desktop<br>📄 project.html<br>📄 notes.txt");
+}
+
+function openNotes() {
+  createWindow("Notes", `
+    <textarea style="width:100%;height:100%;background:transparent;color:white;border:none;resize:none;">
+Tohle je fake macOS 😎
+    </textarea>
+  `);
+}
+
+function openAbout() {
+  createWindow("About this Mac", `
+    <b>Fake macOS</b><br>
+    Version 1.0<br><br>
+    Built with HTML, CSS & JS<br>
+    By Saltix 😏
+  `);
+}
+</script>
+
+</body>
+</html>
