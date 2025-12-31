@@ -1,159 +1,164 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Fake macOS</title>
+
 <style>
-:root {
-  --bg: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
-  --window: rgba(30,30,30,0.85);
-  --bar: rgba(20,20,20,0.6);
-  --text: #e5e7eb;
+:root{
+  --bg:#0b0f14;
+  --glass:rgba(255,255,255,.08);
+  --window:rgba(30,30,30,.88);
+  --text:#e5e7eb;
+  --radius:14px;
 }
 
-* {
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+body{
+  margin:0;height:100vh;
+  background:radial-gradient(circle at top,#1f2933,#020617);
+  color:var(--text);
+  overflow:hidden;
 }
 
-body {
-  margin: 0;
-  height: 100vh;
-  background: var(--bg);
-  color: var(--text);
-  overflow: hidden;
+/* ===== MENU BAR ===== */
+#menubar{
+  height:28px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:0 12px;
+  background:rgba(20,20,20,.6);
+  backdrop-filter:blur(14px);
+  font-size:13px;
 }
 
-/* Top bar */
-#menubar {
-  height: 28px;
-  background: var(--bar);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  font-size: 13px;
+/* ===== DESKTOP ===== */
+#desktop{
+  position:relative;
+  height:calc(100vh - 28px);
 }
 
-#menubar span {
-  margin-right: 15px;
-  cursor: default;
+/* ===== DOCK ===== */
+#dock{
+  position:absolute;
+  left:50%;bottom:16px;
+  transform:translateX(-50%);
+  display:flex;
+  gap:14px;
+  padding:10px 16px;
+  background:var(--glass);
+  backdrop-filter:blur(18px);
+  border-radius:22px;
 }
 
-/* Desktop */
-#desktop {
-  position: relative;
-  height: calc(100vh - 28px);
+.dock-icon{
+  width:52px;height:52px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:transform .15s;
+}
+.dock-icon:hover{transform:scale(1.25)}
+.dock-icon svg{width:26px;height:26px;fill:white}
+
+/* ===== WINDOW ===== */
+.window{
+  position:absolute;
+  width:min(420px,90vw);
+  height:min(280px,70vh);
+  background:var(--window);
+  backdrop-filter:blur(20px);
+  border-radius:var(--radius);
+  box-shadow:0 40px 80px rgba(0,0,0,.7);
+  overflow:hidden;
+  animation:open .18s ease;
+}
+@keyframes open{
+  from{transform:scale(.95);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 
-/* Dock */
-#dock {
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  padding: 10px 14px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(15px);
-  border-radius: 18px;
+.titlebar{
+  height:30px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 10px;
+  cursor:grab;
 }
 
-.dock-icon {
-  width: 48px;
-  height: 48px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  cursor: pointer;
-  transition: transform .2s;
+.buttons{display:flex;gap:6px}
+.btn{width:12px;height:12px;border-radius:50%}
+.close{background:#ff5f56}
+.min{background:#ffbd2e}
+.max{background:#27c93f}
+
+.title{
+  flex:1;
+  text-align:center;
+  font-size:13px;
+  opacity:.75;
 }
 
-.dock-icon:hover {
-  transform: scale(1.25);
+.content{
+  padding:12px;
+  height:calc(100% - 30px);
+  overflow:auto;
+  font-size:14px;
 }
 
-/* Window */
-.window {
-  position: absolute;
-  width: 360px;
-  height: 240px;
-  background: var(--window);
-  backdrop-filter: blur(18px);
-  border-radius: 12px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-  overflow: hidden;
-}
-
-.titlebar {
-  height: 28px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  cursor: grab;
-}
-
-.buttons {
-  display: flex;
-  gap: 6px;
-}
-
-.btn {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.close { background: #ff5f56; }
-.min { background: #ffbd2e; }
-.max { background: #27c93f; }
-
-.title {
-  flex: 1;
-  text-align: center;
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-.content {
-  padding: 12px;
-  font-size: 14px;
+/* ===== RESPONSIVE ===== */
+@media (max-width:600px){
+  #dock{gap:10px}
+  .dock-icon{width:44px;height:44px}
 }
 </style>
 </head>
 <body>
 
+<!-- MENU BAR -->
 <div id="menubar">
-  <span>🍎 Finder</span>
+  <b>Finder</b>
   <span>File</span>
   <span>Edit</span>
   <span>View</span>
 </div>
 
+<!-- DESKTOP -->
 <div id="desktop">
   <div id="dock">
-    <div class="dock-icon" onclick="openFinder()">📁</div>
-    <div class="dock-icon" onclick="openNotes()">📝</div>
-    <div class="dock-icon" onclick="openAbout()">🍎</div>
+    <div class="dock-icon" onclick="openFinder()">
+      <!-- folder -->
+      <svg viewBox="0 0 24 24"><path d="M3 6a2 2 0 012-2h4l2 2h8a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+    </div>
+    <div class="dock-icon" onclick="openNotes()">
+      <!-- notes -->
+      <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/></svg>
+    </div>
+    <div class="dock-icon" onclick="openAbout()">
+      <!-- info -->
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+    </div>
   </div>
 </div>
 
 <script>
-const desktop = document.getElementById("desktop");
-let z = 1;
+const desktop=document.getElementById("desktop");
+let z=10;
 
-function createWindow(title, html) {
-  const win = document.createElement("div");
-  win.className = "window";
-  win.style.left = Math.random() * 300 + 80 + "px";
-  win.style.top = Math.random() * 200 + 60 + "px";
-  win.style.zIndex = z++;
+/* ===== WINDOW ENGINE ===== */
+function createWindow(title,html){
+  const w=document.createElement("div");
+  w.className="window";
+  w.style.left=80+Math.random()*200+"px";
+  w.style.top=60+Math.random()*120+"px";
+  w.style.zIndex=z++;
 
-  win.innerHTML = `
+  w.innerHTML=`
     <div class="titlebar">
       <div class="buttons">
         <div class="btn close"></div>
@@ -164,55 +169,56 @@ function createWindow(title, html) {
     </div>
     <div class="content">${html}</div>
   `;
+  desktop.appendChild(w);
 
-  desktop.appendChild(win);
+  w.onclick=()=>w.style.zIndex=z++;
+  w.querySelector(".close").onclick=()=>w.remove();
 
-  win.onclick = () => win.style.zIndex = z++;
-
-  win.querySelector(".close").onclick = () => win.remove();
-
-  // Drag
-  const bar = win.querySelector(".titlebar");
-  let dx, dy, drag = false;
-
-  bar.onmousedown = e => {
-    drag = true;
-    dx = e.clientX - win.offsetLeft;
-    dy = e.clientY - win.offsetTop;
-    win.style.zIndex = z++;
+  // drag
+  const bar=w.querySelector(".titlebar");
+  let dx,dy,drag=false;
+  bar.onmousedown=e=>{
+    drag=true;
+    dx=e.clientX-w.offsetLeft;
+    dy=e.clientY-w.offsetTop;
+    w.style.zIndex=z++;
   };
-
-  document.onmousemove = e => {
-    if (!drag) return;
-    win.style.left = e.clientX - dx + "px";
-    win.style.top = e.clientY - dy + "px";
+  document.onmousemove=e=>{
+    if(!drag)return;
+    w.style.left=e.clientX-dx+"px";
+    w.style.top=e.clientY-dy+"px";
   };
-
-  document.onmouseup = () => drag = false;
+  document.onmouseup=()=>drag=false;
 }
 
-/* Apps */
-function openFinder() {
-  createWindow("Finder", "📂 Desktop<br>📄 project.html<br>📄 notes.txt");
-}
-
-function openNotes() {
-  createWindow("Notes", `
-    <textarea style="width:100%;height:100%;background:transparent;color:white;border:none;resize:none;">
-Tohle je fake macOS 😎
-    </textarea>
+/* ===== APPS ===== */
+function openFinder(){
+  createWindow("Finder",`
+    <b>Desktop</b><br><br>
+    ▸ project.html<br>
+    ▸ notes.txt<br>
+    ▸ fake-os.app
   `);
 }
 
-function openAbout() {
-  createWindow("About this Mac", `
-    <b>Fake macOS</b><br>
-    Version 1.0<br><br>
-    Built with HTML, CSS & JS<br>
-    By Saltix 😏
+function openNotes(){
+  const text=localStorage.notes||"";
+  createWindow("Notes",`
+    <textarea
+      style="width:100%;height:100%;background:transparent;color:white;border:none;resize:none"
+      oninput="localStorage.notes=this.value"
+    >${text}</textarea>
+  `);
+}
+
+function openAbout(){
+  createWindow("About this Mac",`
+    <b>Fake macOS</b><br><br>
+    HTML • CSS • JavaScript<br>
+    Single file OS simulation<br><br>
+    Built by <b>Saltix</b>
   `);
 }
 </script>
-
 </body>
 </html>
