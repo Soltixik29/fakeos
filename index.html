@@ -1,82 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TweakUI – Frontend Tools</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TweakUI – Frontend Utility Suite</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-slate-950 text-slate-100">
 
-<!-- NAV -->
 <header class="border-b border-white/10">
-  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold">TweakUI</h1>
-    <a href="/func/style/themegenerator.html"
-       class="text-sm px-4 py-2 rounded bg-indigo-600 hover:bg-indigo-500">
-      Open Theme Generator
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between">
+    <span class="font-bold text-lg">TweakUI</span>
+    <a href="/app.html" class="px-4 py-2 rounded bg-indigo-600 hover:bg-indigo-500">
+      Open App
     </a>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="max-w-6xl mx-auto px-6 py-24 text-center">
-  <h2 class="text-4xl md:text-5xl font-bold">
-    Frontend tools,<br>
-    <span class="text-indigo-400">without the bullshit</span>
-  </h2>
-  <p class="mt-6 text-slate-400 max-w-xl mx-auto">
-    TweakUI is a collection of small, focused tools for building better UI —
-    faster, cleaner, and fully in the browser.
+<section class="max-w-7xl mx-auto px-6 py-28 text-center">
+  <h1 class="text-5xl font-bold">
+    Build UI faster.<br>
+    <span class="text-indigo-400">Tweak everything.</span>
+  </h1>
+
+  <p class="mt-6 max-w-xl mx-auto text-slate-400">
+    A collection of frontend utilities for themes, colors,
+    contrast and design tokens — no setup, no frameworks.
   </p>
 
-  <div class="mt-10 flex justify-center gap-4">
-    <a href="/func/style/themegenerator.html"
-       class="px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 font-semibold">
-      Try Theme Generator
-    </a>
-    <a href="#tools"
-       class="px-6 py-3 rounded-lg border border-white/10 hover:bg-white/5">
-      View tools
-    </a>
-  </div>
+  <a href="/app.html"
+     class="inline-block mt-10 px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold">
+     Launch TweakUI
+  </a>
 </section>
 
-<!-- TOOLS -->
-<section id="tools" class="max-w-6xl mx-auto px-6 py-20">
-  <h3 class="text-2xl font-bold mb-10">Available tools</h3>
-
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="p-6 rounded-xl bg-white/5 border border-white/10">
-      <h4 class="font-semibold text-lg">🎨 Theme Generator</h4>
-      <p class="text-sm text-slate-400 mt-2">
-        Generate CSS variables & Tailwind-ready themes with live preview.
-      </p>
-    </div>
-
-    <div class="p-6 rounded-xl bg-white/5 border border-white/10 opacity-50">
-      <h4 class="font-semibold text-lg">🌈 Palette Builder</h4>
-      <p class="text-sm text-slate-400 mt-2">
-        Coming soon
-      </p>
-    </div>
-
-    <div class="p-6 rounded-xl bg-white/5 border border-white/10 opacity-50">
-      <h4 class="font-semibold text-lg">♿ Contrast Checker</h4>
-      <p class="text-sm text-slate-400 mt-2">
-        Coming soon
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="border-t border-white/10">
-  <div class="max-w-6xl mx-auto px-6 py-6 text-sm text-slate-500 flex justify-between">
-    <span>© 2025 TweakUI</span>
-    <span>Built with HTML, Tailwind & JS</span>
-  </div>
+<footer class="border-t border-white/10 py-6 text-center text-sm text-slate-500">
+  © 2025 TweakUI
 </footer>
 
 </body>
